@@ -11,17 +11,17 @@ const Footer = () => {
               <h3 className="text-white font-medium mb-4">Platform</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/tracing" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     real time{" "}
                   </a>
                 </li>
                 <li>
-                  <a href="/prompt-management" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Management
                   </a>
                 </li>
                 <li>
-                  <a href="/evaluation" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Evaluation
                   </a>
                 </li>
@@ -32,18 +32,24 @@ const Footer = () => {
               <h3 className="text-white font-medium mb-4">Integrations</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/python-sdk" className="hover:text-white">
-                    Python SDK
+                  <a href="/" className="hover:text-white">
+                    React
                   </a>
                 </li>
                 <li>
-                  <a href="/js-sdk" className="hover:text-white">
-                    JS/TS SDK
+                  <a href="/" className="hover:text-white">
+                    Node
                   </a>
                 </li>
                 <li>
-                  <a href="/openai-sdk" className="hover:text-white">
-                    anthropic
+                  <a href="/" className="hover:text-white">
+                    supabase 
+                  </a>
+                  <a
+                    href="https://github.com/avikkk19/notyetnamed"
+                    className="hover:text-white"
+                  >
+                    <p className="text-xs">visit github instead</p>
                   </a>
                 </li>
               </ul>
@@ -53,18 +59,18 @@ const Footer = () => {
               <h3 className="text-white font-medium mb-4">Resources</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/docs" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Documentation
                   </a>
                 </li>
                 <li>
-                  <a href="/interactive-demo" className="hover:text-white">
-                    Interactive Demo
+                  <a href="/" className="hover:text-white">
+                    Interactive
                   </a>
                 </li>
                 <li>
-                  <a href="/video-demo" className="hover:text-white">
-                    Video demo (10 min)
+                  <a href="/" className="hover:text-white">
+                    Experimental
                   </a>
                 </li>
               </ul>
@@ -79,12 +85,12 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="/careers" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="/about-us" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     About us
                   </a>
                 </li>
@@ -95,27 +101,36 @@ const Footer = () => {
               <h3 className="text-white font-medium mb-4">Legal</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/security" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Security
                   </a>
                 </li>
                 <li>
-                  <a href="/terms" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Terms
                   </a>
                 </li>
                 <li>
-                  <a href="/privacy" className="hover:text-white">
+                  <a href="/" className="hover:text-white">
                     Privacy
                   </a>
                 </li>
               </ul>
             </div>
           </div>
-
           <div className="mt-12 pt-8 border-t border-gray-800 text-sm">
-            <p>© 2022-2025 avinash.</p>
-          </div> <p className="text-sm">Dev is stupid.</p>
+            <p>© 2025 avinash.</p>
+          </div>{" "}
+          <p className="text-sm">
+            Dev is stupid
+            <a
+              className="hover:text-white px-2"
+              href="https://instagram.com/spidey33x_"
+            >
+              @spidey33x_
+            </a>{" "}
+            if you wanna reach out.
+          </p>
         </div>
       </footer>
     </div>

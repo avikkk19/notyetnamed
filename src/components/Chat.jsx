@@ -971,12 +971,12 @@ function Chat() {
           </>
         ) : (
           <>
-            <div className="flex-1 flex items-center justify-center bg-gray-900 text-gray-500">
+            <div className="flex-1 flex items-center justify-center bg-black text-gray-500">
               Select a user to start chatting
             </div>
             {/* Footer */}
-            <footer className="bg-gray-800 text-gray-400 text-center py-2">
-              © 2023 CollabEdit. All rights reserved.
+            <footer className="bg-black text-gray-400 text-center py-2">
+              © 2025 avi.
             </footer>
           </>
         )}
