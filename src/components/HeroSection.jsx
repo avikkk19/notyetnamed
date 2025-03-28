@@ -7,7 +7,7 @@ const HeroSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-24">
         {/* Hero content */}
         <div className="text-center pt-16 sm:pt-24 pb-16">
-          <h1 className="text-6xl sm:text-7xl font-bold mb-8 leading-tight">
+          <h1 className="text-6xl sm:text-7xl font-bold mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-zinc-100">
             Open Source
             <br />
             Collaboration
@@ -17,10 +17,10 @@ const HeroSection = () => {
 
           <div className="max-w-4xl mx-auto">
             <p className="text-2xl sm:text-3xl mb-6">
-              <span className="underline">Traces</span>,{" "}
-              <span className="underline">evals</span>,{" "}
-              <span className="underline"> management</span> and{" "}
-              <span className="underline">metrics</span>
+              <span className="hover:underline  hover:bg-gradient-to-r from-gray-900 to-zinc-900 rounded-4xl">Futuristic</span>,{" "}
+              <span className="hover:underline  hover:bg-gradient-to-r from-gray-900 to-zinc-900 rounded-4xl">Evals</span>,{" "}
+              <span className="hover:underline  hover:bg-gradient-to-r from-gray-900 to-zinc-900 rounded-4xl"> Manages</span> and{" "}
+              <span className="hover:underline  hover:bg-gradient-to-r from-gray-900 to-zinc-900 rounded-4xl">Metrics</span>
               <br />
               to look for other opportunities.
             </p>
@@ -28,7 +28,7 @@ const HeroSection = () => {
 
           <div className="flex gap-4 justify-center mt-10">
             <Link to="/chat">
-              <button className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+              <button className="bg-white hover:bg-gradient-to-r from-gray-900 to-zinc-900 text-black hover:text-white px-6 py-3 rounded-3xl font-medium transition-colors">
                 Start a conversation
               </button>
             </Link>
@@ -54,9 +54,9 @@ const HeroSection = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Tool Card 1 */}
-            <div className="bg-gray-900 rounded-lg p-5 border border-gray-800">
+            <div className="bg-transparent rounded-lg p-5 border border-zinc-900">
               <div className="flex items-center mb-4">
-                <span className="text-2xl mr-2">📂</span>
+                <span className="text-2xl mr-2"></span>
                 <h3 className="text-xl font-bold">
                   Transparent and Customizable
                 </h3>
@@ -69,10 +69,10 @@ const HeroSection = () => {
             </div>
 
             {/* Tool Card 2 */}
-            <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+            <div className="bg-transparent rounded-lg p-5 border border-zinc-900">
               <div className="flex items-center mb-4">
-                <span className="text-2xl mr-2">👍</span>
-                <h3 className="text-xl font-bold">Real-Time Chat:</h3>
+                <span className="text-2xl mr-2"></span>
+                <h3 className="text-xl font-bold">Real-Time Chat</h3>
               </div>
               <h1 className="text-gray-300">
                 <p className="font-bold">Instant Communication</p>
@@ -82,9 +82,9 @@ const HeroSection = () => {
             </div>
 
             {/* Tool Card 3 */}
-            <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+            <div className="bg-transparent rounded-lg p-5 border border-zinc-900">
               <div className="flex items-center mb-4">
-                <span className="text-2xl mr-2">📊</span>
+                <span className="text-2xl mr-2"></span>
                 <h3 className="text-xl font-bold">Secure and Private</h3>
               </div>
               <h1 className="text-gray-300">
@@ -95,9 +95,9 @@ const HeroSection = () => {
             </div>
 
             {/* Tool Card 4 */}
-            <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+            <div className="bg-transparent rounded-lg p-5 border border-zinc-900">
               <div className="flex items-center mb-4">
-                <span className="text-2xl mr-2">🧪</span>
+                <span className="text-2xl mr-2"></span>
                 <h3 className="text-xl font-bold">User-Friendly Interface</h3>
               </div>
               <h1 className="text-gray-300">
@@ -108,9 +108,9 @@ const HeroSection = () => {
             </div>
 
             {/* Tool Card 5 */}
-            <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+            <div className="bg-transparent rounded-lg p-5 border border-zinc-900">
               <div className="flex items-center mb-4">
-                <span className="text-2xl mr-2">🔍</span>
+                <span className="text-2xl mr-2"></span>
                 <h3 className="text-xl font-bold">Feature-Rich</h3>
               </div>
               <h1 className="text-gray-300">
@@ -120,9 +120,9 @@ const HeroSection = () => {
             </div>
 
             {/* Tool Card 6 */}
-            <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+            <div className="bg-transparent rounded-lg p-5 border border-zinc-900">
               <div className="flex items-center mb-4">
-                <span className="text-2xl mr-2">💾</span>
+                <span className="text-2xl mr-2"></span>
                 <h3 className="text-xl font-bold">Community Support</h3>
               </div>
               <h1 className="text-gray-300">
@@ -167,7 +167,7 @@ const HeroSection = () => {
             </a>
           </div>
 
-          <div className="bg-gray-900 rounded-lg p-4 max-w-3xl mx-auto border border-gray-800">
+          <div className="  max-w-3xl mx-auto bg-transparent rounded-lg p-5 border border-zinc-900">
             <div className="text-gray-300 text-sm mb-2">Changelog</div>
             <div className="space-y-4">
               <div className="flex items-start border-b border-gray-800 pb-4">

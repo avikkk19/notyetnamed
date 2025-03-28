@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="">
       {/* Footer */}
-      <footer className="bg-black text-gray-400 py-12 border-t border-gray-800">
+      <footer className="bg-black text-gray-400 py-12 border-t border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
             <div>
@@ -114,8 +114,8 @@ const Footer = () => {
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-800 text-sm">
-            <p>© 2022-2025 avinash, viggu Inc.</p>
-          </div>
+            <p>© 2022-2025 avinash.</p>
+          </div> <p className="text-sm">Dev is stupid.</p>
         </div>
       </footer>
     </div>

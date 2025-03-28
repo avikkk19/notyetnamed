@@ -213,7 +213,7 @@ function Chat() {
           }) || [];
 
         setMessages(messagesWithAttachments);
-        scrollToBottom();
+        // scrollToBottom();
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -225,7 +225,7 @@ function Chat() {
   // Scroll to bottom when messages change
   useEffect(() => {
     if (messages.length > 0) {
-      scrollToBottom();
+      // scrollToBottom();
     }
   }, [messages]);
 
@@ -484,7 +484,7 @@ function Chat() {
       }
 
       setMessages((messages) => [...messages, optimisticMessage]);
-      scrollToBottom(); // Scroll to the bottom after adding a new message
+      // scrollToBottom(); // Scroll to the bottom after adding a new message
       setNewMessage("");
       setFilePreview(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -667,7 +667,7 @@ function Chat() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900 text-gray-300">
+      <div className="flex items-center justify-center h-screen bg-black text-gray-300">
         Loading...
       </div>
     );
@@ -675,7 +675,7 @@ function Chat() {
 
   if (!session) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900">
+      <div className="flex items-center justify-center h-screen bg-black">
         <div className="text-center text-gray-300">
           <h1 className="text-2xl font-bold mb-4">
             Please sign in to use the chat
@@ -692,10 +692,10 @@ function Chat() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-900 text-gray-300">
+    <div className="flex h-screen bg-black text-gray-300">
       {/* Users sidebar */}
-      <div className="w-1/4 bg-gray-800 border-r border-gray-700 overflow-y-auto mt-18">
-        <div className="p-4 border-b border-gray-700">
+      <div className="w-1/4 bg-black border-r border-zinc-900 overflow-y-auto mt-18">
+        <div className="p-4 border-b border-zinc-900">
           <h2 className="text-xl font-bold text-white">Contacts</h2>
           <div className="mt-2 text-sm">
             <p>Logged in as: {session.user.email}</p>
@@ -714,7 +714,7 @@ function Chat() {
             placeholder="Search users..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-lg border border-gray-700 bg-gray-700 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+            className="w-full rounded-3xl border border-zinc-900 bg-zinz-300 py-2 px-4 focus:outline-none focus:ring-2 focus:zinc-500 text-white"
           />
         </div>
 
@@ -734,7 +734,7 @@ function Chat() {
               .map((profile) => (
                 <div
                   key={profile.id}
-                  className={`p-4 cursor-pointer hover:bg-gray-700 flex items-center ${
+                  className={`p-4 cursor-pointer hover:bg-zinc-900 flex items-center hover:rounded-2xl${
                     selectedUser?.id === profile.id ? "bg-gray-700" : ""
                   }`}
                   onClick={() => setSelectedUser(profile)}
@@ -775,7 +775,7 @@ function Chat() {
         {selectedUser ? (
           <>
             {/* Chat header */}
-            <div className="bg-gray-800 p-4 border-b border-gray-700 flex items-center mt-18">
+            <div className="bg-black p-4 border-b border-zinc-900 flex items-center mt-18">
               <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white mr-3">
                 {selectedUser.avatar_url ? (
                   <img
@@ -804,7 +804,7 @@ function Chat() {
             </div>
 
             {/* Messages area */}
-            <div className="flex-1 overflow-y-auto p-4 bg-gray-900">
+            <div className="flex-1 overflow-y-auto p-4 bg-black">
               {messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-gray-500">
                   No messages yet. Start a conversation!
@@ -822,8 +822,8 @@ function Chat() {
                     <div
                       className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg px-4 py-2 ${
                         message.sender_id === session.user.id
-                          ? "bg-purple-600 text-white"
-                          : "bg-gray-800 text-gray-300"
+                          ? "bg-zinc-900 text-white"
+                          : "bg-zinc-900 text-gray-300"
                       } ${message.is_optimistic ? "opacity-70" : ""}`}
                     >
                       <div>{processContent(message.content)}</div>
@@ -846,9 +846,9 @@ function Chat() {
             </div>
 
             {/* Message input */}
-            <div className="bg-gray-800 p-4 border-t border-gray-700">
+            <div className="bg-black p-4 border-t border-zinc-900">
               {filePreview && (
-                <div className="mb-2 p-2 bg-gray-700 rounded flex items-center justify-between">
+                <div className="mb-2 p-2 bg-dark rounded flex items-center justify-between">
                   <div className="flex items-center">
                     {filePreview.type === "image" ? (
                       <img
@@ -905,7 +905,7 @@ function Chat() {
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type a message..."
                   disabled={uploading}
-                  className="flex-1 rounded-l-lg border border-gray-700 bg-gray-700 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                  className="flex-1 rounded-l-lg border border-zinc-900 bg-black py-2 px-4 focus:outline-none focus:ring-2 focus:ring-zinc-500 text-white"
                 />
                 <button
                   type="button"
@@ -913,7 +913,7 @@ function Chat() {
                     fileInputRef.current && fileInputRef.current.click()
                   }
                   disabled={uploading}
-                  className="bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 border-t border-b border-gray-700"
+                  className="bg-black hover:bg-zinc-900 text-gray-300 px-3 border-t border-b border-gray-700"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -939,7 +939,7 @@ function Chat() {
                 <button
                   type="submit"
                   disabled={uploading || (!newMessage.trim() && !filePreview)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-r-lg disabled:opacity-50"
+                  className="bg-zinc-900 hover:bg-zinc-900 text-white px-4 py-2 rounded-r-lg height-10 flex items-center justify-center"
                 >
                   {uploading ? (
                     <svg

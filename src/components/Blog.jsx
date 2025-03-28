@@ -367,7 +367,7 @@ function Blog() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900 text-gray-300">
+      <div className="flex items-center justify-center h-screen bg-black text-gray-300">
         Loading...
       </div>
     );
@@ -375,14 +375,14 @@ function Blog() {
 
   if (!session) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900">
+      <div className="flex items-center justify-center h-screen bg-black">
         <div className="text-center text-gray-300">
           <h1 className="text-2xl font-bold mb-4">
             Please sign in to view and create blogs
           </h1>
           <button
             onClick={handleLogin}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+            className="bg-zinc-600 hover:bg-zinc-700 text-white px-4 py-2 rounded"
           >
             Sign In (Test Account)
           </button>
@@ -392,9 +392,9 @@ function Blog() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-300 ">
+    <div className="min-h-screen bg-black text-gray-300 ">
       {/* Header */}
-      <header className="bg-gray-800 shadow-md p-4 border-b border-gray-700 ">
+      <header className="bg-black shadow-md p-4 border-b border-gray-700 ">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-white">Community Blog</h1>
           <div className="flex items-center space-x-4">
@@ -407,7 +407,7 @@ function Blog() {
             </button>
             <a
               href="/chat"
-              className="text-purple-400 hover:text-purple-300 text-sm"
+              className="text-zinc-400 hover:text-zinc-300 text-sm"
             >
               Go to Chat
             </a>
@@ -422,7 +422,7 @@ function Blog() {
           <div className="mb-6 flex justify-end">
             <button
               onClick={() => setCreating(true)}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
+              className="bg-black hover:bg-zinc-700 text-white px-4 py-2 rounded-lg"
             >
               Create New Blog Post
             </button>
@@ -434,7 +434,7 @@ function Blog() {
           <div className="mb-6">
             <button
               onClick={() => setSelectedBlog(null)}
-              className="flex items-center text-purple-400 hover:text-purple-300"
+              className="flex items-center text-zinc-400 hover:text-zinc-300"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -455,7 +455,7 @@ function Blog() {
 
         {/* Blog creation form */}
         {creating && (
-          <div className="mb-8 bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700">
+          <div className="mb-8 bg-black rounded-lg p-6 shadow-lg border border-zinc-700">
             <h2 className="text-xl font-bold text-white mb-4">
               Create New Blog Post
             </h2>
@@ -492,7 +492,7 @@ function Blog() {
                   value={newBlog.title}
                   onChange={handleInputChange}
                   required
-                  className="w-full rounded-lg border border-gray-700 bg-gray-700 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                  className="w-full rounded-lg border border-gray-700 bg-dark py-2 px-4 focus:outline-none focus:ring-2 focus:ring-zinc-500 text-white"
                 />
               </div>
 
@@ -505,7 +505,7 @@ function Blog() {
                   name="summary"
                   value={newBlog.summary}
                   onChange={handleInputChange}
-                  className="w-full rounded-lg border border-gray-700 bg-gray-700 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                  className="w-full rounded-lg border border-gray-700 bg-black py-2 px-4 focus:outline-none focus:ring-2 focus:ring-zinc-500 text-white"
                 />
               </div>
 
@@ -519,7 +519,7 @@ function Blog() {
                   onChange={handleInputChange}
                   required
                   rows="6"
-                  className="w-full rounded-lg border border-gray-700 bg-gray-700 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                  className="w-full rounded-lg border border-gray-700 bg-black py-2 px-4 focus:outline-none focus:ring-2 focus:ring-zinc-500 text-white"
                 ></textarea>
               </div>
 
@@ -529,7 +529,7 @@ function Blog() {
                 </label>
 
                 {imagePreview ? (
-                  <div className="mb-2 p-2 bg-gray-700 rounded flex items-center justify-between">
+                  <div className="mb-2 p-2 bg-black rounded flex items-center justify-between">
                     <div className="flex items-center">
                       <img
                         src={imagePreview.url}
@@ -569,7 +569,7 @@ function Blog() {
                       onClick={() =>
                         imageInputRef.current && imageInputRef.current.click()
                       }
-                      className="bg-gray-700 hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-lg flex items-center"
+                      className="bg-black hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-lg flex items-center"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -608,7 +608,7 @@ function Blog() {
                     setUploadError(null);
                     if (imageInputRef.current) imageInputRef.current.value = "";
                   }}
-                  className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-black hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
                 >
                   Cancel
                 </button>
@@ -619,7 +619,7 @@ function Blog() {
                     !newBlog.title.trim() ||
                     !newBlog.content.trim()
                   }
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg disabled:opacity-50"
+                  className="bg-zinc-600 hover:bg-zinc-700 text-white px-6 py-2 rounded-lg disabled:opacity-50"
                 >
                   {uploading || creating ? (
                     <div className="flex items-center">
@@ -656,7 +656,7 @@ function Blog() {
 
         {/* Blog detail view */}
         {selectedBlog && (
-          <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+          <div className="bg-black rounded-lg shadow-lg overflow-hidden border border-gray-700">
             {/* Cover image */}
             {selectedBlog.image_url && (
               <div className="w-full h-64 md:h-96 overflow-hidden">
@@ -683,7 +683,7 @@ function Blog() {
               <div className="flex items-center mb-6 text-gray-400">
                 <div className="flex items-center">
                   {profiles[selectedBlog.author_id] && (
-                    <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white mr-3">
+                    <div className="w-10 h-10 bg-zinc-600 rounded-full flex items-center justify-center text-white mr-3">
                       {profiles[selectedBlog.author_id].avatar_url ? (
                         <img
                           src={profiles[selectedBlog.author_id].avatar_url}
@@ -722,7 +722,7 @@ function Blog() {
                     onClick={() =>
                       startChatWithAuthor(selectedBlog, selectedBlog.author_id)
                     }
-                    className="ml-auto bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
+                    className="ml-auto bg-zinc-600 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg flex items-center"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -768,7 +768,7 @@ function Blog() {
                 <p className="text-gray-400 mb-4">No blog posts yet</p>
                 <button
                   onClick={() => setCreating(true)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
+                  className="bg-zinc-600 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg"
                 >
                   Create the first post
                 </button>
@@ -777,7 +777,7 @@ function Blog() {
               blogs.map((blog) => (
                 <div
                   key={blog.id}
-                  className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700 flex flex-col hover:border-purple-500 transition-colors duration-200"
+                  className="bg-black rounded-lg overflow-hidden shadow-lg border border-gray-700 flex flex-col hover:border-zinc-500 transition-colors duration-200"
                 >
                   {/* Blog card image */}
                   <div
@@ -796,7 +796,7 @@ function Blog() {
                         }}
                       />
                     ) : (
-                      <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+                      <div className="w-full h-full bg-black flex items-center justify-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-12 w-12 text-gray-500"
@@ -818,7 +818,7 @@ function Blog() {
                   {/* Card content */}
                   <div className="p-5 flex-1 flex flex-col">
                     <h3
-                      className="text-xl font-bold text-white mb-2 cursor-pointer hover:text-purple-400"
+                      className="text-xl font-bold text-white mb-2 cursor-pointer hover:text-zinc-400"
                       onClick={() => openBlogDetail(blog)}
                     >
                       {blog.title}
@@ -836,7 +836,7 @@ function Blog() {
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-700">
                       <div className="flex items-center">
                         {profiles[blog.author_id] && (
-                          <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white mr-2">
+                          <div className="w-8 h-8 bg-zinc-600 rounded-full flex items-center justify-center text-white mr-2">
                             {profiles[blog.author_id].avatar_url ? (
                               <img
                                 src={profiles[blog.author_id].avatar_url}
@@ -873,7 +873,7 @@ function Blog() {
                     <div className="flex mt-3 space-x-2">
                       <button
                         onClick={() => openBlogDetail(blog)}
-                        className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-lg text-sm flex items-center justify-center"
+                        className="flex-1 bg-black hover:bg-gray-600 text-white py-1 px-3 rounded-lg text-sm flex items-center justify-center"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -904,7 +904,7 @@ function Blog() {
                           onClick={() =>
                             startChatWithAuthor(blog, blog.author_id)
                           }
-                          className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-1 px-3 rounded-lg text-sm flex items-center justify-center"
+                          className="flex-1 bg-zinc-600 hover:bg-zinc-700 text-white py-1 px-3 rounded-lg text-sm flex items-center justify-center"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

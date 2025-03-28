@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "./SupabaseClient.jsx";
 
 const SignupForm = () => {
@@ -11,6 +11,20 @@ const SignupForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(true);
+  const [cooldownTimer, setCooldownTimer] = useState(0);
+
+  useEffect(() => {
+    let timer;
+    if (cooldownTimer > 0) {
+      timer = setTimeout(() => {
+        setCooldownTimer(prev => prev - 1);
+      }, 1000);
+    } else {
+      setCanSubmit(true);
+    }
+    return () => clearTimeout(timer);
+  }, [cooldownTimer]);
 
   // Email validation function
   const isValidEmail = (email) => {
@@ -18,12 +32,50 @@ const SignupForm = () => {
     return regex.test(email);
   };
 
+  // Function to upsert user record in the "users" table
+  const upsertUser = async (userId, userData) => {
+    try {
+      // Ensure user agrees to terms
+      if (!agreeTerms) {
+        throw new Error("Please agree to the Terms of Service and Privacy Policy");
+      }
+
+      // Use supabase client with authentication
+      const { data, error } = await supabase.from("users").upsert(
+        {
+          id: userId,
+          ...userData,
+        },
+        {
+          onConflict: "id",
+          returning: "minimal", // Avoid returning unnecessary data
+        }
+      );
+
+      if (error) {
+        console.error("Detailed Upsert Error:", error);
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Upsert Error:", error);
+      throw new Error(`User registration failed: ${error.message}`);
+    }
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!canSubmit) {
+      setError(`Please wait ${cooldownTimer} seconds before trying again`);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
-    // Validate inputs
     if (password !== confirmPassword) {
       setError("Passwords don't match");
       setLoading(false);
@@ -37,137 +89,54 @@ const SignupForm = () => {
     }
 
     try {
-      // 1. Sign up the user with Supabase Auth
+      // Sign up the user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
             full_name: name,
-            role: role,
+            role,
           },
         },
       });
 
       if (authError) {
-        console.error("Auth error:", authError);
-        throw new Error(authError.message);
+        if (authError.status === 429) {
+          setError("Too many signup attempts. Please wait a moment and try again.");
+          setCanSubmit(false);
+          setCooldownTimer(60);
+          setLoading(false);
+          return;
+        }
+        throw authError;
       }
 
-      console.log("Auth signup successful:", authData);
-
-      if (!authData.user) {
-        throw new Error("User signup failed. Please try again.");
-      }
-
-      // Get the user ID
       const userId = authData.user.id;
 
-      // Create username from email with random suffix
-      const username = `${email.split("@")[0]}_${Math.floor(
-        Math.random() * 1000
-      )}`;
-      const currentTime = new Date().toISOString();
+      // Upsert user record
+      await upsertUser(userId, {
+        name,
+        email,
+        role,
+      });
 
-      // First, try to insert the user record
-      const { error: userError } = await supabase.from("users").insert([
-        {
-          id: userId,
-          name,
-          email,
-          role,
-          created_at: currentTime,
-          updated_at: currentTime,
-        },
-      ]);
-
-      if (userError) {
-        console.error("Failed to create user record:", userError);
-        // Don't throw here, but log for debugging
-      } else {
-        console.log("User record created successfully");
-      }
-
-      // Next, try to insert the profile record
-      const { error: profileError } = await supabase.from("profiles").insert([
-        {
-          id: userId,
-          username,
-          full_name: name,
-          created_at: currentTime,
-        },
-      ]);
-
-      if (profileError) {
-        console.error("Failed to create profile record:", profileError);
-
-        // If we get a unique constraint violation, try with a different username
-        if (profileError.code === "23505") {
-          // Postgres unique violation code
-          const retryUsername = `${email.split("@")[0]}_${Math.floor(
-            Math.random() * 10000
-          )}`;
-          console.log("Trying again with a different username:", retryUsername);
-
-          const { error: retryError } = await supabase.from("profiles").insert([
-            {
-              id: userId,
-              username: retryUsername,
-              full_name: name,
-              created_at: currentTime,
-            },
-          ]);
-
-          if (retryError) {
-            console.error(
-              "Second attempt to create profile failed:",
-              retryError
-            );
-          } else {
-            console.log("Profile created successfully on second attempt");
-          }
-        }
-      } else {
-        console.log("Profile record created successfully");
-      }
-
-      // Handle email confirmation case
-      if (authData.user && !authData.session) {
-        console.log("Email verification required - no session established yet");
+      if (!authData.session) {
         setSuccess(true);
-        setError(
-          "Please check your email to verify your account before signing in."
-        );
-        setLoading(false);
+        setError("Please verify your email before signing in.");
         return;
       }
 
-      // If we reached here, consider the signup successful
       setSuccess(true);
     } catch (error) {
-      console.error("Error during signup:", error.message);
-      setError(error.message);
+      console.error("Signup Error:", error);
+      setError(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+      setCanSubmit(false);
+      setCooldownTimer(60);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleSocialSignup = async (provider) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-
-      if (error) throw error;
-
-      // The user will be redirected to the OAuth provider
-      console.log("OAuth signup initiated", data);
-    } catch (error) {
-      console.error(`Error signing up with ${provider}:`, error.message);
-      setError(error.message);
     }
   };
 
@@ -207,7 +176,7 @@ const SignupForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Your full name"
               required
-              disabled={loading || success}
+              disabled={loading || success || !canSubmit}
             />
           </div>
 
@@ -226,7 +195,7 @@ const SignupForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="your@email.com"
               required
-              disabled={loading || success}
+              disabled={loading || success || !canSubmit}
             />
           </div>
 
@@ -243,7 +212,7 @@ const SignupForm = () => {
               onChange={(e) => setRole(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
-              disabled={loading || success}
+              disabled={loading || success || !canSubmit}
             >
               <option value="" disabled>
                 Select your role
@@ -271,7 +240,7 @@ const SignupForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="••••••••"
               required
-              disabled={loading || success}
+              disabled={loading || success || !canSubmit}
             />
           </div>
 
@@ -290,7 +259,7 @@ const SignupForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="••••••••"
               required
-              disabled={loading || success}
+              disabled={loading || success || !canSubmit}
             />
           </div>
 
@@ -302,7 +271,7 @@ const SignupForm = () => {
               onChange={(e) => setAgreeTerms(e.target.checked)}
               className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               required
-              disabled={loading || success}
+              disabled={loading || success || !canSubmit}
             />
             <label
               htmlFor="agreeTerms"
@@ -321,12 +290,11 @@ const SignupForm = () => {
 
           <button
             type="submit"
-            className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors ${
-              loading || success ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-            disabled={loading || success}
+            className={`w-full ${!canSubmit ? 'bg-gray-400' : 'bg-blue-600'} text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors`}
+            disabled={loading || success || !canSubmit}
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {!canSubmit ? `Try Again in ${cooldownTimer}s` : 
+             loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
