@@ -18,7 +18,7 @@ const SignupForm = () => {
     let timer;
     if (cooldownTimer > 0) {
       timer = setTimeout(() => {
-        setCooldownTimer(prev => prev - 1);
+        setCooldownTimer((prev) => prev - 1);
       }, 1000);
     } else {
       setCanSubmit(true);
@@ -37,7 +37,9 @@ const SignupForm = () => {
     try {
       // Ensure user agrees to terms
       if (!agreeTerms) {
-        throw new Error("Please agree to the Terms of Service and Privacy Policy");
+        throw new Error(
+          "Please agree to the Terms of Service and Privacy Policy"
+        );
       }
 
       // Use supabase client with authentication
@@ -67,7 +69,7 @@ const SignupForm = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!canSubmit) {
       setError(`Please wait ${cooldownTimer} seconds before trying again`);
       return;
@@ -101,33 +103,30 @@ const SignupForm = () => {
         },
       });
 
-      if (authError) {
-        if (authError.status === 429) {
-          setError("Too many signup attempts. Please wait a moment and try again.");
-          setCanSubmit(false);
-          setCooldownTimer(60);
-          setLoading(false);
-          return;
-        }
-        throw authError;
-      }
+      if (authError) throw authError;
 
-      const userId = authData.user.id;
+      // Important: Wait for session to be established
+      if (authData.session) {
+        // Set the session in the client
+        await supabase.auth.setSession({
+          access_token: authData.session.access_token,
+          refresh_token: authData.session.refresh_token,
+        });
 
-      // Upsert user record
-      await upsertUser(userId, {
-        name,
-        email,
-        role,
-      });
+        // Now upsert with established session
+        const userId = authData.user.id;
+        await upsertUser(userId, {
+          name,
+          email,
+          role,
+        });
 
-      if (!authData.session) {
+        setSuccess(true);
+      } else {
+        // Handle email confirmation case
         setSuccess(true);
         setError("Please verify your email before signing in.");
-        return;
       }
-
-      setSuccess(true);
     } catch (error) {
       console.error("Signup Error:", error);
       setError(
@@ -290,11 +289,16 @@ const SignupForm = () => {
 
           <button
             type="submit"
-            className={`w-full ${!canSubmit ? 'bg-gray-400' : 'bg-blue-600'} text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors`}
+            className={`w-full ${
+              !canSubmit ? "bg-gray-400" : "bg-blue-600"
+            } text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors`}
             disabled={loading || success || !canSubmit}
           >
-            {!canSubmit ? `Try Again in ${cooldownTimer}s` : 
-             loading ? "Creating Account..." : "Create Account"}
+            {!canSubmit
+              ? `Try Again in ${cooldownTimer}s`
+              : loading
+              ? "Creating Account..."
+              : "Create Account"}
           </button>
         </form>
 

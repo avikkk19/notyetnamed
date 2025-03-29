@@ -103,9 +103,9 @@ const SignInForm = () => {
               >
                 Password
               </label>
-              <a href="#" className="text-xs text-blue-600 hover:text-blue-800">
+              {/* <a href="#" className="text-xs text-blue-600 hover:text-blue-800">
                 Forgot Password?
-              </a>
+              </a> */}
             </div>
             <input
               type="password"
